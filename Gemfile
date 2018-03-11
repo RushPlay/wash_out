@@ -6,6 +6,7 @@ gem 'wasabi'
 gem 'savon', '>= 2.0.0'
 gem 'httpi'
 
+gem 'railties', '~> 5.0.0'
 gem 'rspec-rails'
 gem 'guard'
 gem 'guard-rspec'

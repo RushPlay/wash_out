@@ -694,20 +694,20 @@ describe WashOut do
       end
 
       # correct auth
-      lambda { savon(:check_auth, 42){ wsse_auth "gorilla", "secret" } }.
-        should_not raise_exception
+      expect { savon(:check_auth, 42){ wsse_auth "gorilla", "secret" } }.
+        to_not raise_exception
 
       # wrong user
-      lambda { savon(:check_auth, 42){ wsse_auth "chimpanzee", "secret" } }.
-        should raise_exception(Savon::SOAPFault)
+      expect { savon(:check_auth, 42){ wsse_auth "chimpanzee", "secret" } }.
+        to raise_exception(Savon::SOAPFault)
 
       # wrong pass
-      lambda { savon(:check_auth, 42){ wsse_auth "gorilla", "nicetry" } }.
-        should raise_exception(Savon::SOAPFault)
+      expect { savon(:check_auth, 42){ wsse_auth "gorilla", "nicetry" } }.
+        to raise_exception(Savon::SOAPFault)
 
       # no auth
-      lambda { savon(:check_auth, 42) }.
-        should raise_exception(Savon::SOAPFault)
+      expect { savon(:check_auth, 42) }.
+        to raise_exception(Savon::SOAPFault)
     end
 
     it "handles PasswordDigest auth" do
@@ -719,24 +719,24 @@ describe WashOut do
       end
 
       # correct auth
-      lambda { savon(:check_auth, 42){ wsse_auth "gorilla", "secret" } }.
-        should_not raise_exception
+      expect { savon(:check_auth, 42){ wsse_auth "gorilla", "secret" } }.
+        to_not raise_exception
 
       # correct digest auth
-      lambda { savon(:check_auth, 42){ wsse_auth "gorilla", "secret", :digest } }.
-        should_not raise_exception
+      expect { savon(:check_auth, 42){ wsse_auth "gorilla", "secret", :digest } }.
+        to_not raise_exception
 
       # wrong user
-      lambda { savon(:check_auth, 42){ wsse_auth "chimpanzee", "secret", :digest } }.
-        should raise_exception(Savon::SOAPFault)
+      expect { savon(:check_auth, 42){ wsse_auth "chimpanzee", "secret", :digest } }.
+        to raise_exception(Savon::SOAPFault)
 
       # wrong pass
-      lambda { savon(:check_auth, 42){ wsse_auth "gorilla", "nicetry", :digest } }.
-        should raise_exception(Savon::SOAPFault)
+      expect { savon(:check_auth, 42){ wsse_auth "gorilla", "nicetry", :digest } }.
+        to raise_exception(Savon::SOAPFault)
 
       # no auth
-      lambda { savon(:check_auth, 42) }.
-        should raise_exception(Savon::SOAPFault)
+      expect { savon(:check_auth, 42) }.
+        to raise_exception(Savon::SOAPFault)
     end
 
     it "handles auth callback" do

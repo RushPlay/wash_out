@@ -15,7 +15,10 @@ module ActionDispatch::Routing
   class Mapper
     # Adds the routes for a SOAP endpoint at +controller+.
     def wash_out(controller_name, options={})
-      options.each_with_index { |key, value|  @scope[key] = value } if @scope
+      if @scope
+        scope_frame = @scope.respond_to?(:frame) ? @scope.frame : @scope
+        options.each{ |key, value|  scope_frame[key] = value }
+      end
       controller_class_name = [options[:module], controller_name].compact.join("/")
 
       match "#{controller_name}/wsdl"   => "#{controller_name}#_generate_wsdl", :via => :get, :format => false
@@ -43,5 +46,21 @@ ActionController::Base.class_eval do
   def self.soap_service(options={})
     include WashOut::SOAP
     self.soap_config = options
+  end
+end
+
+if Rails::VERSION::MAJOR >= 5
+  if defined?(ActionView::Rendering)
+    module ActionController
+      module ApiRendering
+        include ActionView::Rendering
+      end
+    end
+  end
+
+  ActiveSupport.on_load :action_controller do
+    if self == ActionController::API
+      include ActionController::Helpers
+    end
   end
 end
